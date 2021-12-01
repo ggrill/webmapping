@@ -41,11 +41,8 @@ legend {
 }
 
 #legend {
-    padding: 10px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     line-height: 1.5;
     height: auto;
-    margin-bottom: 40px;
     width: auto;
 }
 
