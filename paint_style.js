@@ -1,13 +1,15 @@
 var paint = {};
 var paint2 = {};
 
-map_center = [0, 20]
-startzoom = -1
-flytozoom = 2
+map_center = [-60, -10]
+startzoom = 2
+flytozoom = 3
+speed = 0.1
 
 wrapper_section = 'map-wrapper'
 
 console.log(startzoom, " ", flytozoom)
+
 
 var legends = {
     'dis_m3_pyr': [[0, 10, 50, 100, 1000, 10000, 25000, 50000],
