@@ -223,32 +223,3 @@ function update_style(map_name, legends) {
 
     return paint, paint2;
 }
-
-function generateCaseLogic(map_name, legends, default_color = "hsl(157, 89%, 40%)") {
-    let caseLogic = ['case'];
-
-    for (const [key, [breakpoints, colors]] of Object.entries(legends)) {
-        caseLogic.push(["==", map_name, key]);
-
-        let stepLogic = ["step", ["get", key]];
-        for (let i = 0; i < breakpoints.length; i++) {
-            stepLogic.push(breakpoints[i], colors[i]);
-        }
-
-        caseLogic.push(stepLogic);
-    }
-
-    caseLogic.push(default_color);
-
-    return caseLogic;
-}
-
-function update_style(map_name, legends) {
-    return {
-        "fill-color": generateCaseLogic(map_name, legends),
-        "fill-opacity": 1,
-        "fill-outline-color": "white"
-    };
-}
-
-console.log(update_style('soc_th_sav', legends));
