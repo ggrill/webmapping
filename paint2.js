@@ -18,9 +18,14 @@ var legends = {
         "Protected Areas (%)"
     ],
     'ari_ix_sav': [
-        [0, 1, 50, 100, 150, 200],
+        [0, 1, 50, 100, 150, 227],
         ["hsl(19,77%,38%)", "hsl(28,65%,54%)", "hsl(118,72%,66%)", "hsl(108,80%,33%)", "hsl(204,72%,41%)", "hsl(220,73%,38%)"],
         "Global Aridity Index"
+    ],
+    'soc_th_sav': [
+        [0, 10, 25, 50, 100, 1041],
+        ["#fddd58", "#f7ba3e", "#d68422", "#9e4410", "#6b0500"],
+        "Organic Carbon Content in Soil"
     ]
 };
 
