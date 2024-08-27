@@ -164,238 +164,232 @@
         
     </style>
 
-        <div id="map" style="width: 100%; height: 900px;"></div>
-        <div id="legend" class="map-legend"></div>
+    <div id="map" style="width: 100%; height: 900px;"></div>
+    <div id="legend" class="map-legend"></div>
 
-        <script>
+    <script>
 
-        // Add a toggle control for HydroATLAS layers
-        class LayerToggleControl {
-            onAdd(map) {
-                this._map = map;
-                this._container = document.createElement('div');
-                this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+    // Add a toggle control for HydroATLAS layers
+    class LayerToggleControl {
+        onAdd(map) {
+            this._map = map;
+            this._container = document.createElement('div');
+            this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+            
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'mapboxgl-ctrl-icon';
+            button.innerHTML = 'HB';
+            button.title = 'Toggle HydroATLAS Layers';
+            
+            button.onclick = () => {
+                const visibility = map.getLayoutProperty(a[0], 'visibility');
                 
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.className = 'mapboxgl-ctrl-icon';
-                button.innerHTML = 'HB';
-                button.title = 'Toggle HydroATLAS Layers';
-                
-                button.onclick = () => {
-                    const visibility = map.getLayoutProperty(a[0], 'visibility');
-                    
-                    if (visibility === 'visible') {
-                        a.forEach(layer => {
-                            map.setLayoutProperty(layer, 'visibility', 'none');
-                        });
-                        button.style.backgroundColor = '#ccc';
-                    } else {
-                        a.forEach(layer => {
-                            map.setLayoutProperty(layer, 'visibility', 'visible');
-                        });
-                        button.style.backgroundColor = '';
-                    }
-                };
-                
-                this._container.appendChild(button);
-                return this._container;
-            }
-
-            onRemove() {
-                this._container.parentNode.removeChild(this._container);
-                this._map = undefined;
-            }
-        }
-
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3Vlbm5vIiwiYSI6ImNtMGNubXJzZzA0bHIybG4zM3ptb3hveDcifQ.YgDnd0sA3Qu7VtCbD0EWNw';
-
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/guenno/clqqs9opl00km01p573287n9o', // Use the provided style URL
-            center: map_center,
-            zoom: startzoom,
-            projection: 'mercator',
-            minZoom: 0,
-            maxZoom: 10
-        });
-
-        function add_legend() {
-            var legend = document.getElementById("legend");
-            if (!legend) {
-                console.error("Legend element not found. Creating it.");
-                legend = document.createElement('div');
-                legend.id = 'legend';
-                legend.className = 'map-legend';
-                document.body.appendChild(legend);
-            }
-
-            legend.innerHTML = "";
-
-            var div = document.createElement('div');
-            div.className = 'info legend';
-
-            legend.innerHTML += '<b>' + legends[map_name][2] + '</b><br>';
-            var legend_length = legends[map_name][0].length;
-
-            for (var i = 0; i < legend_length; i++) {
-                const color = legends[map_name][1][i];
-                const item = document.createElement('div');
-                const key = document.createElement('span');
-                key.className = 'legend-key';
-                key.style.backgroundColor = color;
-
-                const value = document.createElement('span');
-                if (i === legend_length - 1) {
-                    value.innerHTML = 'No data';
-                    key.style.backgroundColor = 'lightgrey'; // Light grey color for 'No data'
+                if (visibility === 'visible') {
+                    a.forEach(layer => {
+                        map.setLayoutProperty(layer, 'visibility', 'none');
+                    });
+                    button.style.backgroundColor = '#ccc';
                 } else {
-                    value.innerHTML = legends[map_name][0][i] + '&ndash;' + legends[map_name][0][i + 1] + '<br>';
+                    a.forEach(layer => {
+                        map.setLayoutProperty(layer, 'visibility', 'visible');
+                    });
+                    button.style.backgroundColor = '';
                 }
-                item.appendChild(key);
-                item.appendChild(value);
-                legend.appendChild(item);
+            };
+            
+            this._container.appendChild(button);
+            return this._container;
+        }
+
+        onRemove() {
+            this._container.parentNode.removeChild(this._container);
+            this._map = undefined;
+        }
+    }
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ3Vlbm5vIiwiYSI6ImNtMGNubXJzZzA0bHIybG4zM3ptb3hveDcifQ.YgDnd0sA3Qu7VtCbD0EWNw';
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/guenno/clqqs9opl00km01p573287n9o', // Use the provided style URL
+        center: map_center,
+        zoom: startzoom,
+        projection: 'mercator',
+        minZoom: 0,
+        maxZoom: 10
+    });
+
+    function add_legend() {
+        var legend = document.getElementById("legend");
+        if (!legend) {
+            console.error("Legend element not found. Creating it.");
+            legend = document.createElement('div');
+            legend.id = 'legend';
+            legend.className = 'map-legend';
+            document.body.appendChild(legend);
+        }
+
+        legend.innerHTML = "";
+
+        var div = document.createElement('div');
+        div.className = 'info legend';
+
+        legend.innerHTML += '<b>' + legends[map_name][2] + '</b><br>';
+        var legend_length = legends[map_name][0].length;
+
+        for (var i = 0; i < legend_length; i++) {
+            const color = legends[map_name][1][i];
+            const item = document.createElement('div');
+            const key = document.createElement('span');
+            key.className = 'legend-key';
+            key.style.backgroundColor = color;
+
+            const value = document.createElement('span');
+            if (i === legend_length - 1) {
+                value.innerHTML = 'No data';
+                key.style.backgroundColor = 'lightgrey'; // Light grey color for 'No data'
+            } else {
+                value.innerHTML = legends[map_name][0][i] + '&ndash;' + legends[map_name][0][i + 1] + '<br>';
             }
+            item.appendChild(key);
+            item.appendChild(value);
+            legend.appendChild(item);
         }
-    
-        function add_data_layers() {
-    
-            paint = update_style_new(map_name, legends)
-    
-            for (const element of a) {
-    
-                map.addLayer({
-                    "id": element,
-                    "type": "fill",
-                    "source": "hb",
-                    "source-layer": element,
-                    "layout": {},
-                    "paint": paint
-                }, "land-structure-line");
-            }             
+    }
+
+    function add_data_layers() {
+
+        paint = update_style_new(map_name, legends)
+
+        for (const element of a) {
+
+            map.addLayer({
+                "id": element,
+                "type": "fill",
+                "source": "hb",
+                "source-layer": element,
+                "layout": {},
+                "paint": paint
+            }, "land-structure-line");
+        }             
+    }
+
+    function remove_data_layers() {
+        for (const element of a) {
+            map.removeLayer(element);
         }
+    }
+
+    function reload_map() {
+        remove_data_layers()
+        add_data_layers()
+        add_legend()
+    }
+
+
+    // colors to use for the categories
+    const colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
+
+    const a = ["BasinATLAS_v10_lev01", "BasinATLAS_v10_lev02", "BasinATLAS_v10_lev03",
+        "BasinATLAS_v10_lev04", "BasinATLAS_v10_lev05", "BasinATLAS_v10_lev06",
+        "BasinATLAS_v10_lev07", "BasinATLAS_v10_lev08", "BasinATLAS_v10_lev09",
+        "BasinATLAS_v10_lev10", "BasinATLAS_v10_lev11", "BasinATLAS_v10_lev12",];
+
+    // initial map
+    var map_name = "dis_m3_pyr" // field_name
+    // var map_name = "pac_pc_sse"
+    // var map_name = "ari_ix_sav"
+    var map_name = "soc_th_sav"
+
+    map.setRenderWorldCopies(true)
     
-        function remove_data_layers() {
-            for (const element of a) {
-                map.removeLayer(element);
+    map.scrollZoom.setWheelZoomRate(1 / 1);
+    
+    containerElement = document.getElementById(wrapper_section)
+
+    //onclick support for mobile devices  
+    let touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+
+    map.on('style.load', function() {
+        // Add sources
+        map.addSource("hb", {
+            "type": "vector",
+            "tiles": ["https://f002.backblazeb2.com/file/tilestore/hydroatlas/{z}/{y}/{x}.pbf"]
+        });
+
+        // Add layers
+        add_data_layers();
+        add_legend();
+
+        // Add other map controls
+        map.addControl(new mapboxgl.FullscreenControl({container: containerElement}));
+        map.addControl(new mapboxgl.NavigationControl());
+        map.addControl(new mapboxgl.ScaleControl({
+            maxWidth: 90,
+            unit: 'metric',
+            position: 'bottom-right'
+        }));
+        map.addControl(new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: false
+        }));            
+
+        map.addControl(new LayerToggleControl(), 'top-right');
+
+        // Set up event listeners
+        map.on('click', (e) => {
+
+            let featuresElement = document.getElementById('features');
+            if (!featuresElement) {
+                console.log("Creating features element");
+                featuresElement = document.createElement('div');
+                featuresElement.id = 'features';
+                document.body.appendChild(featuresElement);
             }
-        }
-    
-        function reload_map() {
-            remove_data_layers()
-            add_data_layers()
-            add_legend()
-        }
-    
-    
-        // colors to use for the categories
-        const colors = ['#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c'];
-    
-        const a = ["BasinATLAS_v10_lev01", "BasinATLAS_v10_lev02", "BasinATLAS_v10_lev03",
-            "BasinATLAS_v10_lev04", "BasinATLAS_v10_lev05", "BasinATLAS_v10_lev06",
-            "BasinATLAS_v10_lev07", "BasinATLAS_v10_lev08", "BasinATLAS_v10_lev09",
-            "BasinATLAS_v10_lev10", "BasinATLAS_v10_lev11", "BasinATLAS_v10_lev12",];
-    
-        // initial map
-        var map_name = "dis_m3_pyr" // field_name
-        // var map_name = "pac_pc_sse"
-        // var map_name = "ari_ix_sav"
-        var map_name = "soc_th_sav"
-    
-        map.setRenderWorldCopies(true)
-        
-        map.scrollZoom.setWheelZoomRate(1 / 1);
-        
-        containerElement = document.getElementById(wrapper_section)
 
-        //onclick support for mobile devices  
-        let touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+            featuresElement.innerHTML = '';
 
-        map.on('style.load', function() {
-            // Add sources
-            map.addSource("hb", {
-                "type": "vector",
-                "tiles": ["https://f002.backblazeb2.com/file/tilestore/hydroatlas/{z}/{y}/{x}.pbf"]
-            });
+            if (map.queryRenderedFeatures(e.point)) {
     
-            // Add layers
-            add_data_layers();
-            add_legend();
+                const features = map.queryRenderedFeatures(e.point);
     
-            // Add other map controls
-            map.addControl(new mapboxgl.FullscreenControl({container: containerElement}));
-            map.addControl(new mapboxgl.NavigationControl());
-            map.addControl(new mapboxgl.ScaleControl({
-                maxWidth: 90,
-                unit: 'metric',
-                position: 'bottom-right'
-            }));
-            map.addControl(new mapboxgl.GeolocateControl({
-                positionOptions: {
-                    enableHighAccuracy: true
-                },
-                trackUserLocation: false
-            }));            
-
-            map.addControl(new LayerToggleControl(), 'top-right');
+                for (const key in features) {
     
-            // Set up event listeners
-            map.on('click', (e) => {
-
-                let featuresElement = document.getElementById('features');
-                if (!featuresElement) {
-                    console.log("Creating features element");
-                    featuresElement = document.createElement('div');
-                    featuresElement.id = 'features';
-                    document.body.appendChild(featuresElement);
-                }
-    
-                featuresElement.innerHTML = '';
-    
-                if (map.queryRenderedFeatures(e.point)) {
-        
-                    const features = map.queryRenderedFeatures(e.point);
-        
-                    for (const key in features) {
-        
-                        if (features[key].source === 'hb') {
-                            featuresElement.innerHTML +=
-                                '<b style="font-size:16pt;">Name</b>' + '<br>' + // Name
-                                '<b style="font-size:14pt;">(Attribute Description)</b>' + '<br>' + // Attribute description
-                                '<hr>' +
-                                '<b>Attribute: </b>' + 'Field Name' + // Field name
-                                '<hr>' +
-                                '<b>Value: </b>' + Math.round((features[key].properties[map_name] + Number.EPSILON) * 100) / 100 +
-                                '<hr>';
-                            break;
-                        }
+                    if (features[key].source === 'hb') {
+                        featuresElement.innerHTML +=
+                            '<b style="font-size:16pt;">Name</b>' + '<br>' + // Name
+                            '<b style="font-size:14pt;">(Attribute Description)</b>' + '<br>' + // Attribute description
+                            '<hr>' +
+                            '<b>Attribute: </b>' + 'Field Name' + // Field name
+                            '<hr>' +
+                            '<b>Value: </b>' + Math.round((features[key].properties[map_name] + Number.EPSILON) * 100) / 100 +
+                            '<hr>';
+                        break;
                     }
                 }
-            });
-    
-        });
-    
-       
-        map.flyTo({
-            center: map_center,
-            zoom: flytozoom,
-            speed: speed,
-            curve: 0.7,
-            easing(t) {
-                return 1 - Math.pow(1 - t, 5);
             }
         });
+
+    });
+    
        
+    map.flyTo({
+        center: map_center,
+        zoom: flytozoom,
+        speed: speed,
+        curve: 0.7,
+        easing(t) {
+            return 1 - Math.pow(1 - t, 5);
+        }
+    });
     
-        
-        
-        $('#fullscreenmap').click(function() {
-            var x = document.getElementsByClassName("maplibregl-ctrl-fullscreen mapboxgl-ctrl-fullscreen")[0].click(); 
-            $(".remove").remove();
-        });
-    
-    
-      
+    $('#fullscreenmap').click(function() {
+        var x = document.getElementsByClassName("maplibregl-ctrl-fullscreen mapboxgl-ctrl-fullscreen")[0].click(); 
+        $(".remove").remove();
+    });
     
     </script>
     </body>
