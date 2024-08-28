@@ -49,6 +49,18 @@ var legends = {
     ["#fddd58", "#f7ba3e", "#d68422", "#9e4410", "#6b0500", "black"],
     "Organic Carbon Content in Soil",
   ],
+  ero_kh_sav: [
+    [0, 11, 101, 1001, 7501, 15001, 185000],
+    [
+      "#F9E79F", // Light yellow for 0-10
+      "#F5CBA7", // Light orange for 11-100
+      "#E59866", // Darker orange for 101-1000
+      "#C0392B", // Red for 1001-7500
+      "#8E44AD", // Purple for 7501-15,000
+      "#4A235A"  // Dark purple for 15,001-185,000
+    ],
+    "Soil erosion (kg/hectare per year)"
+  ],
 };
 
 function update_style_new(map_name, legends) {

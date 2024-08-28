@@ -315,7 +315,7 @@
         // Add sources
         map.addSource("hb", {
             "type": "vector",
-            "tiles": ["https://f002.backblazeb2.com/file/tilestore/hydroatlas/{z}/{y}/{x}.pbf"]
+            "tiles": ["https://confluv.io/file/tilestore/hydroatlas/{z}/{y}/{x}.pbf"]
         });
 
         // Add layers
@@ -387,7 +387,7 @@
     });
     
     $('#fullscreenmap').click(function() {
-        var x = document.getElementsByClassName("maplibregl-ctrl-fullscreen mapboxgl-ctrl-fullscreen")[0].click(); 
+        var x = document.getElementsByClassName("mapboxgl-ctrl-fullscreen")[0].click(); 
         $(".remove").remove();
     });
     
